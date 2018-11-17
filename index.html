@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name='viewport' content='width=device-width'>
+    <meta charset=utf-8>
+        <title>DV.商城，正品保证，全省包邮</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script type="text/javascript">
+      function search(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = location.search.substr(1).match(reg);
+        if (r != null) return (r[2]);
+        return null;
+      }
+      var t = search('t');
+      if (t == null) {
+        var searchStr = location.search;
+        if (searchStr) {
+          searchStr += '&';
+        } else {
+          searchStr += '?';
+        }
+        searchStr += 't=' + new Date().valueOf();;
+        location.href = location.origin + location.pathname + searchStr + location.hash;
+      }
+    </script>
+  </body>
+</html>
