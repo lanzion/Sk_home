@@ -9,7 +9,7 @@
         <swiper :options="catetoryArtical" >
             <swiper-slide v-for="(slide,index) in articalProduct" :key="index">
                 <img v-lazy="slide.ImageUrl" alt="">
-                <div class='hotsalePrice'>￥{{slide.Param1}}</div>
+                <div class='hotsalePrice'>￥{{slide.ActivityPrice?slide.ActivityPrice:slide.Param1}}</div>
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
         </swiper>

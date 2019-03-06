@@ -1,28 +1,28 @@
 <template>
-    <div class='advertising'>
-        <div v-if='adver.length<=1'>
-        <a :href="item.URL"  v-for='(item,index) in adver' :key='index' :class="'aa'+index"  @click='Statistics(item.Title)'>
-            <!-- <img v-lazy="item.ImageUrl" alt=""> -->
-            <img :src="item.ImageUrl" alt="">
-            
-        </a>
-        </div>
-        <div v-else>
-          <!-- <swiper :options="spaceSwiper" ref="spaceSwiperref" >
+  <div class='advertising'>
+    <div v-if='adver.length<=1'>
+      <a :href="item.URL" v-for='(item,index) in adver' :key='index' :class="'aa'+index" @click='Statistics(item.Title)'>
+        <!-- <img v-lazy="item.ImageUrl" alt=""> -->
+        <img :src="item.ImageUrl" alt="">
+
+      </a>
+    </div>
+    <div v-else>
+      <!-- <swiper :options="spaceSwiper" ref="spaceSwiperref" >
             <swiper-slide v-for="(slide,index) in adver" :key="index">
                 <a :href="slide.Url"><img v-lazy="slide.ImageUrl" @click="Statistics(slide.Title)"></a>
             </swiper-slide>
             <div class="swiper-pagination"  slot="pagination"></div>
           </swiper> -->
-          <div   class='Extension'>
-            <a :href="slide.URL"  :class="'two'+index"  @click='Statistics(slide.Title)' v-for="(slide,index) in adver" :key="index">
-                <!-- <img v-lazy="slide.ImageUrl" alt=""> -->
-                <img :src="slide.ImageUrl" alt="">
-                
-            </a>
-          </div>
-        </div>
+      <div class='Extension'>
+        <a :href="slide.URL" :class="'two '+'two'+index" @click='Statistics(slide.Title)' v-for="(slide,index) in adver" :key="index">
+          <!-- <img v-lazy="slide.ImageUrl" alt=""> -->
+          <img :src="slide.ImageUrl" alt="">
+
+        </a>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -52,8 +52,7 @@ export default {
       }
     };
   },
-  created(){
-  }
+  created() {}
 };
 </script>
 <style lang='less'>

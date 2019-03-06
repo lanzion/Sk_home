@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "babel-polyfill": "^6.26.0",
     "element-ui": "^2.0.5",
     "iview": "^2.4.0",
     "less": "^3.0.1",

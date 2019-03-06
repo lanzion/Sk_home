@@ -14,7 +14,7 @@
             {{slide.Title}}
             </div>
         <!-- <div class='hotsaleTitle'></div> -->
-        <div class='hotsalePrice'>￥{{slide.Param1}}</div>
+        <div class='hotsalePrice'>￥{{slide.ActivityPrice?slide.ActivityPrice:slide.Param1}}</div>
         </a>
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>

@@ -37,8 +37,10 @@ export default {
         if (Height < document.documentElement.clientHeight) {
           Height = document.documentElement.clientHeight;
         }
-        document.getElementById("app").style.height = Height + "px";
-        document.getElementById("app").style.overflow = "hidden";
+        // document.getElementById("app").style.height = Height + "px";
+        document.getElementById("ASwiper").style.height = "0px";
+        // document.getElementById("app").style.overflow = "hidden";
+        // document.getElementById("ASwiper").style.overflow = "hidden";
         clearInterval(timer4);
       }
     }, 100);

@@ -51,6 +51,10 @@ export let LoadActivityList = async (kind) => {
     })
 }
 
+export let LoadGetTypeTree = async (param)=>{
+  return axios.post('/api/Article/GetTypeTree', param)
+}
+
 export let getQuery = (paramName) => {
   var paramValue = "";
   if (window.location.href.indexOf("?") != -1) {
@@ -138,6 +142,7 @@ export let HandleImageImg = (res) => {
 
 }
 export let HandleProductData = (res) => {
+  // console.log(res);
   if (res.data.Data) {
     res.data.Data.map(function (data) {
       var PromotionTagTexts = {

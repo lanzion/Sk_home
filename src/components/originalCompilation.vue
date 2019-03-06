@@ -1,7 +1,7 @@
 <template>
   <div class='specialarea' v-if='originalCompilation.length > 0'>
-      <div class='title'>源味合辑</div>
-      <a class="m_origina_box" v-for="(item,index) in originalCompilation" :key='index' :href='item.URL' @click='Statistics(item.Title)'>
+      <div class='title'>{{originalCompilation[0].Title}}</div>
+      <a class="m_origina_box" v-for="(item,index) in originalCompilation.slice(1)" :key='index' :href='item.Url' @click='Statistics(item.Title)'>
         <!-- {{specialAreaContent}} -->
           <img v-lazy="item.ImageUrl">
       </a>
@@ -12,7 +12,7 @@ export default {
   props: ["originalCompilation"],
   data() {
     return {
-    };
+    }; 
   },
   methods: {
     Statistics(item) {
@@ -43,29 +43,28 @@ export default {
     margin-top:15/@rem;
     background: white;
     color: #747474;
+    border-bottom: 1px solid #ededed;
   }
   a.m_origina_box {
-    width: 48.5%;
+    width: 50%;
     height: (554/2)/@rem;
     float: left;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    margin-left: 8/@rem;
-    margin-top: 5/@rem;
+    border-bottom: 1px solid #ededed;
     img {
       width: 100%;
       vertical-align:bottom;
       height: 100%;
     }
-    &:nth-of-type(1) {
-      border-bottom: 1px solid #ededed;
+    &:nth-of-type(2n-1){
       border-right:1px solid #ededed;
     }
-    &:nth-of-type(2) {
-      border-bottom: 1px solid #ededed;
+    &:nth-last-child(1){
+      border-bottom:none;
     }
-    &:nth-of-type(3) {
-     border-right:1px solid #ededed;
+    &:nth-last-child(2){
+      border-bottom:none;
     }
   }
 }

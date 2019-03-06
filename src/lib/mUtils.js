@@ -14,6 +14,7 @@ export var limitHomePageHeight =  (self,LoadName,number)=>{
                 if (Height < document.documentElement.clientHeight) {
                   Height = document.documentElement.clientHeight;
                 }
+                // console.log(1);
               document.getElementById("ASwiper").style.height = Height + "px";
               document.getElementById("ASwiper").style.overflow = "hidden";
                 // document.getElementById("app").style.height = Height + "px";
@@ -47,17 +48,18 @@ export var limitCatetoryHeight =  (self)=>{
         Name.getElementsByClassName("three")[0]
       ) {
         var Height =
-          document.getElementsByClassName("cate"+self.$route.query.id)[0]
-            .clientHeight +
+          document.getElementsByClassName("cate"+self.$route.query.id)[0].clientHeight +
           Name.getElementsByClassName("Ttitle")[0].clientHeight +
           Name.getElementsByClassName("three")[0].clientHeight;
         if (Height < document.documentElement.clientHeight) {
           Height = document.documentElement.clientHeight;
         }
-        document.getElementById("ASwiper").style.height = Height + "px";
+        // console.log(2);
+        // console.log(Height);
+        document.getElementById("ASwiper").style.height ="0px";
         document.getElementById("ASwiper").style.overflow = "hidden";
-        // document.getElementById("app").style.height = Height + "px";
-        // document.getElementById("app").style.overflow = "hidden";
+        document.getElementById("default").style.height = Height + "px";
+        document.getElementById("default").style.overflow = "hidden";
         clearInterval(timer3);
       }
     }
@@ -86,6 +88,7 @@ export var HomePageMore =  (self)=>{
           document
             .getElementsByClassName("Hcontainer")[0]
             .getBoundingClientRect().height;
+        // console.log(3);
         document.getElementById("ASwiper").style.height = Height + "px";
         document.getElementById("ASwiper").style.overflow = "hidden";
         // document.getElementById("app").style.height = Height + "px";
@@ -109,10 +112,11 @@ if (Height - top < 300) {
   .clientHeight +
     Name.getElementsByClassName("Ttitle")[0].clientHeight +
     Name.getElementsByClassName("three")[0].clientHeight;
-  document.getElementById("ASwiper").style.height = Height + "px";
+  document.getElementById("ASwiper").style.height = "0px";
   document.getElementById("ASwiper").style.overflow = "hidden";
-  // document.getElementById("app").style.height = Height + "px";
-  // document.getElementById("app").style.overflow = "hidden";
+  document.getElementById("default").style.height = Height + "px";
+  document.getElementById("default").style.overflow = "hidden";
+  // console.log(4);
   self.$store.dispatch("getcatetoryOne", {
     id: self.$route.query.id,
     name: flag
@@ -134,8 +138,11 @@ export var getMoreProduct =  (self,actionName)=>{
   if (Height < document.documentElement.clientHeight) {
     Height = document.documentElement.clientHeight;
   }
-  document.getElementById("app").style.height = Height + "px";
-  document.getElementById("app").style.overflow = "hidden";
+  document.getElementById("ASwiper").style.height = 0 + "px";
+  document.getElementById("ASwiper").style.overflow = "hidden";
+  // document.getElementById("app").style.height = Height + "px";
+  // document.getElementById("app").style.overflow = "hidden";
+  // console.log(5);
 }
 
 export var remFit = (doc, win)=>{

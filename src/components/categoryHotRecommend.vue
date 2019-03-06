@@ -26,7 +26,7 @@
                 <img v-lazy="item.ImageUrl" alt="">
                 <div class='recommendtitle'>{{item.Title}}</div>
                 <div class='recommendmeno'>{{item.Describe}}</div>
-                <div class='recommendprice'>￥{{item.Param1}}</div>
+                <div class='recommendprice'>￥{{item.ActivityPrice?item.ActivityPrice:item.Param1}}</div>
             </a>
       </div>
   </div>

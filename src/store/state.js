@@ -12,7 +12,7 @@ export default {
   kindInfo: [],
   flag: false,
   TopImage: [],
-  FullToastImage:[],
+  FullToastImage: [],
   searchText: [],
   transition: false,
   LodUnReadNotice: false,
@@ -26,6 +26,7 @@ export default {
   initialSlide: null,
   loginflag: true,
   Discount: false,
+  footerIndex: 1,
   HeaderShow: true,
   home: {
     moreProduct: [],
@@ -42,10 +43,11 @@ export default {
     loadingFlag: 0,
     moreHotProduct: [],
     specialArr: [],
+    specialTimeLimitArr: [],//限时特惠
     moreHotProductImg: [],
     HomeAritcal: [],
     specialAreaContent: [],
-    originalCompilation:[],
+    originalCompilation: [],
     HotSaleProduct: [],
     NewProduct: [],
     RecommendProduct: [],
@@ -272,37 +274,32 @@ export default {
     cateTitle: ""
   },
   zqhd: {
-    GroupList:[],
-    hotSale:[],
-    Fulldelivery:[],
-    skillList:[],
-    videoList:[],
-    advertList:[],
-    douRecommendNav:[],
-    // douRecommend:{},
-    douRecommend:[],
-    index:2,
-    swiperSlides: [],
-    Recommend:[],
     scrollTop: 0,
     loadingFlag: 0,
-    adversitingone: [
-      {
-        Url: "",
-        ImageUrl: ""
-      }
-    ],
-    adversitingtwo: [
-      {
-        Url: "",
-        ImageUrl: ""
-      }
-    ],
-    adversitingthree: [
-      {
-        Url: "",
-        ImageUrl: ""
-      }
-    ]
+    advertConfig: [],
+    banner:[],
+    skillData:[],
+    tuangouData:[],
+    fullDelivery: {
+      productList: [],
+      Code: '',
+      Image: '',
+      Title: '',
+    },
+    descendingData: {
+      productList: [],
+      Code: '',
+      Image: '',
+      Title: '',
+    },
+    GiftData: {
+      productList: [],
+      Code: '',
+      Image: '',
+      Title: '',
+    },
+    information1:[],
+    information2:[],
+    homeVideo:[],
   },
 }

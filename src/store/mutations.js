@@ -1,5 +1,18 @@
 
-import { LoadAdvertList, LoadCateGrop, getQuery, GetSpecialActivity, GetReferenceProductList, getCheckTime, HandleImageData, HandleProductData, LoadProductByCate, Cookies, LoadActivityList } from '../server/getData.js'
+import {
+  LoadAdvertList,
+  LoadCateGrop,
+  getQuery,
+  GetSpecialActivity,
+  GetReferenceProductList,
+  getCheckTime,
+  HandleImageData,
+  HandleProductData,
+  LoadProductByCate,
+  Cookies,
+  LoadActivityList,
+  LoadGetTypeTree
+} from '../server/getData.js'
 
 import axios from "axios";
 import Vue from 'vue';
@@ -68,8 +81,17 @@ export default {
       This.state.home.HomeAritcal = HandleImageData(res)
       This.state.home.loadingFlag++;
     })
+    // 限时特惠
+    LoadAdvertList('PRODUCT', 'HOME_LIMITEDTIME', 1, 4, CheckTime).then(function (res) {
+      This.state.home.specialTimeLimitArr = HandleProductData(res);
+    })
     LoadAdvertList("IMAGE", "HOME_YUANWEI", 1, 100, CheckTime).then(function (res) {
-      This.state.home.originalCompilation = HandleImageData(res)
+      res.data.Data.forEach(v => {
+        if (v.ImageUrl) {
+          v.ImageUrl = JSON.parse(v.ImageUrl)[0].ServerUrl + JSON.parse(v.ImageUrl)[0].FilePath + ".thumb." + JSON.parse(v.ImageUrl)[0].FileExt
+        }
+      });
+      This.state.home.originalCompilation = res.data.Data
       This.state.home.loadingFlag++;
     })
   },
@@ -894,12 +916,12 @@ export default {
     var CheckTime = ''
     if (state[arr.id.toLowerCase()].getMoreHotflag) {
       state[arr.id.toLowerCase()].getMoreHotflag = false;
-      LoadAdvertList("PRODUCT", arr.id + "_HOT", state[arr.id.toLowerCase()].HotIndex + 1, 17, CheckTime).then(function (res) {
+      LoadAdvertList("PRODUCT", arr.id + "_HOT", state[arr.id.toLowerCase()].HotIndex + 1, 26, CheckTime).then(function (res) {
         state[arr.id.toLowerCase()].HotIndex = state[arr.id.toLowerCase()].HotIndex + 1;
         HandleProductData(res).map(function (data) {
           state[arr.id.toLowerCase()].moreHotProduct.push(data)
         })
-        if (res.data.Data.length < 17) {
+        if (res.data.Data.length < 26) {
           state[arr.id.toLowerCase()].getMoreHotflag = false;
         } else {
           state[arr.id.toLowerCase()].getMoreHotflag = true;
@@ -959,13 +981,14 @@ export default {
         })
     }
   },
-  getSearch(state) {
-    var CheckTime = ''
-    var This = this;
-    LoadAdvertList("IMAGE", "SEARCH_MESS", 1, 100, CheckTime).then(function (res) {
-      This.state.searchText=res.data.Data
-    })
-  },
+  // 搜索文本
+  // getSearch(state) {
+  //   var CheckTime = ''
+  //   var This = this;
+  //   LoadAdvertList("IMAGE", "SEARCH_MESS", 1, 100, CheckTime).then(function (res) {
+  //     This.state.searchText=res.data.Data
+  //   })
+  // },
   getHeadNavArr(state) {
     state.headNavArr = [];
     var CheckTime = "";
@@ -980,11 +1003,11 @@ export default {
         //   AdvertCode: "Navigation",
         //   Describe: "中秋活动",
         //   Sort: 0,
-        //   Title: "双11",
-        //   Url: "ZQHD"
+        //   Title: "年货大作战",
+        //   Url: "ZQHD",
+        //   ImageUrl: '[{"FileId":0,"FilePath":"/res/gdtvimg/20190110/40307a98e6654e789d5b1baa630c849c.png","FileName":null,"FileExt":"png","SplitList":null,"ServerUrl":"http://gdtvimg.weixinmvp.com"}]'
         // }
         // state.headNavArr.unshift(obj);
-        // console.log(state.headNavArr);
       }
     })
   },
@@ -1065,7 +1088,7 @@ export default {
       })
     }
   },
-  getFullToast(state){
+  getFullToast(state) {
     var CheckTime = ''
     var This = this;
     LoadAdvertList("IMAGE", "HOME_FULL_TOAST", 1, 100, CheckTime).then(function (res) {
@@ -1084,162 +1107,184 @@ export default {
   },
   getZQHD: function (state, id) {
     var This = this;
-    var CheckTime = ''
-    GetSpecialActivity(316).then(function (res) {
-      if (res.data.Data.ADVERT_CONFIG){
-        var advert_config_obj = JSON.parse(res.data.Data.ADVERT_CONFIG).Data;
-        for (var i = 0, len = advert_config_obj.length; i < len; i++) {
-          advert_config_obj[i].Image = advert_config_obj[i].Image.ServerUrl + advert_config_obj[i].Image.FilePath + '.thumb.' + advert_config_obj[i].Image.FileExt
-        }
-        This.state.zqhd.advertList = advert_config_obj
-        // console.log(This.state.zqhd.advertList);
-        This.state.zqhd.loadingFlag++;
-      }
-      var codeLIst = JSON.parse(res.data.Data.NAVIGATION_CONFIG);
-      for (var i = 0; i < codeLIst.length; i++) {
-        var element = codeLIst[i];
-        GetReferenceProductList(1, 6, 1, "specialactivity", element.Code)
-          .then(function (res) {
-            for (var i = 0; i < res.data.Data.length; i++) {
-              var element = res.data.Data[i];
-              element.ProductImage =
-                JSON.parse(element.ProductImage)[0].ServerUrl +
-              JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt;
-            }
-            This.state.zqhd.GroupList = res.data.Data.slice(0, 6);
-            This.state.zqhd.loadingFlag++;
-          })
-      }
-    });
-    GetSpecialActivity(318).then(function (res) {
-      var codeLIst = JSON.parse(res.data.Data.NAVIGATION_CONFIG);
-      for (let i = 0; i < codeLIst.length; i++) {
-        const v = codeLIst[i];
-        GetReferenceProductList(1, 8, 1, "specialactivity", v.Code)
-          .then(function (res) {
-            for (var i = 0; i < res.data.Data.length; i++) {
-              var element = res.data.Data[i];
-              element.ProductImage = JSON.parse(element.ProductImage)[0].ServerUrl + JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt
-            }
-            if (v.Title == '热卖直降') {
-              This.state.zqhd.hotSale = res.data.Data.slice(0, 8);
-            } else if (v.Title == '买满有礼') {
-              This.state.zqhd.Fulldelivery = res.data.Data.slice(0, 8);
-            }
-            This.state.zqhd.loadingFlag++;
-          })
+    var CheckTime = '';
+    // banner
+    GetSpecialActivity(398).then(function (res) {
+      if (!res.data.Data) return
+      var data = res.data.Data;
+      var banner = [];
+      if (data.ADVERT_CONFIG) {
+        var advertConfigData = JSON.parse(data.ADVERT_CONFIG).Data;
+        advertConfigData.forEach(v => {
+          v.Image = v.Image.ServerUrl + v.Image.FilePath + '.thumb.' + v.Image.FileExt;
+          banner.push(v);
+        });
+        This.state.zqhd.banner = banner;
       }
     })
-    GetSpecialActivity(317).then(function (res) {
-      var codeLIst = JSON.parse(res.data.Data.NAVIGATION_CONFIG);
-      for (var i = 0; i < codeLIst.length; i++) {
-        var v = codeLIst[i];
-        GetReferenceProductList(1, 5, 1, 'specialactivity', v.Code)
-          .then(function (res) {
-            for (var i = 0; i < res.data.Data.length; i++) {
-              var element = res.data.Data[i];
-              element.ProductImage =
-                JSON.parse(element.ProductImage)[0].ServerUrl +
-              JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt
-            }
-            This.state.zqhd.videoList = res.data.Data.slice(0, 5);
-            This.state.zqhd.loadingFlag++;
-          })
-      }
+    GetSpecialActivity(399).then(function (res) {
+      if (!res.data.Data) return
+      var data = res.data.Data;
+      var banner = [];
+      var foolrData = JSON.parse(data.NAVIGATION_CONFIG);
+      foolrData.forEach(v => {
+        v.Image = v.Image[0].ServerUrl + v.Image[0].FilePath + '.thumb.' + v.Image[0].FileExt;
+        GetReferenceProductList(1, 7, 0, 'specialactivity', v.Code).then(res => {
+          if (!res.data.Data) return
+          var productList = [];
+          res.data.Data.forEach(element => {
+            var img = JSON.parse(element.ProductImage);
+            element.ProductImage = img[0].ServerUrl + img[0].FilePath + '.thumb.' + img[0].FileExt;
+            productList.push(element)
+          });
+          if (v.Title == '买满送礼') {
+            This.state.zqhd.fullDelivery.Code = v.Code;
+            This.state.zqhd.fullDelivery.Image = v.Image;
+            This.state.zqhd.fullDelivery.Title = v.Title;
+            This.state.zqhd.fullDelivery.productList = productList;
+          } else if (v.Title == '爆款直降') {
+            This.state.zqhd.descendingData.Code = v.Code;
+            This.state.zqhd.descendingData.Image = v.Image;
+            This.state.zqhd.descendingData.Title = v.Title;
+            This.state.zqhd.descendingData.productList = productList;
+          } else {
+            This.state.zqhd.GiftData.Code = v.Code;
+            This.state.zqhd.GiftData.Image = v.Image;
+            This.state.zqhd.GiftData.Title = v.Title;
+            This.state.zqhd.GiftData.productList = productList;
+          }
+          This.state.zqhd.loadingFlag++;
+        })
+      });
     });
-    LoadActivityList('ELEVEN_SKILL').then(function (res) {  
-      var nowDay = new Date().getDate();
-      if(new Date().getMonth()+1<11){
-        nowDay = 1
-      };
-      res.data.Data.forEach(v => {
-        v.START_TIME = v.START_TIME.replace(/-/g, '/').replace(/T/g,' ');
-        if (new Date(v.START_TIME).getDate() == nowDay){
-          axios.post('https://dvcms.weixinmvp.com/api/Product/GetReferenceProductList',{
-            PromotionStatus: 1,
-            LimitStatus: 1,
-            CheckTime: CheckTime,
-            ReferenceKind: "ELEVEN_SKILL",
-            ReferenceCode: v.RECID,
-            PageIndex: 1,
-            PageSize: 6
-          }).then(function (res) {  
-            for (var i = 0; i < res.data.Data.length; i++) {
-              var element = res.data.Data[i];
-              element.ProductImage =
-                JSON.parse(element.ProductImage)[0].ServerUrl +
-              JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt
+    GetSpecialActivity(401).then(res=>{
+      if (!res.data.Data) return
+      var data = res.data.Data;
+      var code = JSON.parse(data.NAVIGATION_CONFIG)[0].Code;
+      GetReferenceProductList(1, 3, 0,'specialactivity',code).then(res=>{
+        var productList = [];
+        res.data.Data.forEach(element => {
+          var img = JSON.parse(element.ProductImage);
+          element.ProductImage = img[0].ServerUrl + img[0].FilePath + '.thumb.' + img[0].FileExt;
+          productList.push(element)
+        });
+        This.state.zqhd.GiftData.productList = productList;
+      })
+    })
+    // 团购和广告位
+    GetSpecialActivity(358).then(function (res) {
+      if (!res.data.Data) return
+      var data = res.data.Data;
+      var advertConfig = [];
+      var advertConfigData = JSON.parse(data.ADVERT_CONFIG).Data;
+      advertConfigData.forEach(v => {
+        v.Image = v.Image.ServerUrl + v.Image.FilePath + '.thumb.' + v.Image.FileExt;
+        advertConfig.push(v);
+      });
+      This.state.zqhd.advertConfig = advertConfig;
+      This.state.zqhd.loadingFlag++;
+      var code = JSON.parse(data.NAVIGATION_CONFIG)[0].Code;
+      GetReferenceProductList(1, 6, 0, 'specialactivity', code).then(res => {
+        if (!res.data.Data) return
+        var productList = [];
+        res.data.Data.forEach(element => {
+          var img = JSON.parse(element.ProductImage);
+          element.ProductImage = img[0].ServerUrl + img[0].FilePath + '.thumb.' + img[0].FileExt;
+          productList.push(element)
+        });
+        This.state.zqhd.tuangouData = productList;
+        This.state.zqhd.loadingFlag++;
+      })
+    })
+    // 秒杀
+    LoadActivityList('ELEVEN_SKILL').then(res => {
+      // console.log(res);
+      var data = res.data.Data;
+      var nowDate = new Date().getDate();
+      var nowHours = new Date().getHours();
+      var isMorning = true;
+      if (nowHours >= 14 && nowHours < 22) {
+        isMorning = false;
+      }
+      var code = '';
+      var nowFlag = true;
+      var codeIndex = 0;
+      data.forEach((v,i) => {
+        v.START_TIME = v.START_TIME.replace(/-/g, "/").replace(/T/g, " ");
+        if (nowDate == new Date(v.START_TIME).getDate()) {
+          if (isMorning) {
+            if (new Date(v.START_TIME).getHours() == 12) {
+              code = v.RECID
+              nowFlag = false;
+              codeIndex=i;
             }
-            This.state.zqhd.skillList = res.data.Data.slice(0,5);
-            This.state.zqhd.loadingFlag++;
-          })
+
+          } else {
+            if (new Date(v.START_TIME).getHours() == 20) {
+              code = v.RECID
+              nowFlag = false;
+              codeIndex = i;
+            }
+          }
         }
       });
-    })
-    GetSpecialActivity(319).then(function (res) {
-      
-     var navArry  = JSON.parse(res.data.Data.NAVIGATION_CONFIG);
-      var obj = {};
-      var t={};
-      var sortProp = [];
-      navArry.map(function (v,index) {
-        // v.Image = v.Image[0].ServerUrl + v.Image[0].FilePath + '.thumb.' + v.Image[0].FileExt
-        GetReferenceProductList(1, 10, 1,'specialactivity',v.Code)
-          .then(function (res) {
-            //var obj = {}
-            for (var i = 0; i < res.data.Data.length; i++) {
-              var element = res.data.Data[i];
-              element.ProductImage =
-                JSON.parse(element.ProductImage)[0].ServerUrl +
-                JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt
-            }
-            //判断t的长度与导航长度一致则请求完成
-            t[v.Code]=1;
-            var temp={};
-            temp[v.Code]=res.data.Data;
-            obj[index]=temp;
-            if (Object.keys(t).length==navArry.length) {
-              This.state.zqhd.douRecommendNav=navArry;
-                // console.log(obj);
-                for (let prop  in obj) {
-                    sortProp.push(prop );
-                }
-                sortProp = sortProp.sort();
-                //sortProp = sortProp.reverse();
-                sortProp.map(function(v){
-                  // console.log(v);
-                    This.state.zqhd.douRecommend.push(obj[v]);
-                })
-            }
+      if (nowFlag) {
+        code = data[0].RECID
+      }
+      GetReferenceProductList(1, 3, 1, 'ELEVEN_SKILL', code).then(res => {
+        if (!res.data.Data) return
+        var productList = [];
+        res.data.Data.forEach(element => {
+          var img = JSON.parse(element.ProductImage);
+          element.ProductImage = img[0].ServerUrl + img[0].FilePath + '.thumb.' + img[0].FileExt;
+          productList.push(element)
+        });
+        This.state.zqhd.skillData = productList;
+        This.state.zqhd.loadingFlag++;
+        
+        if (This.state.zqhd.skillData.length<3){
+          codeIndex++;
+          console.log(codeIndex);
+          GetReferenceProductList(1, 3, 1, 'ELEVEN_SKILL', data[codeIndex].RECID).then(res2=>{
+            res2.data.Data.forEach(element => {
+              var img = JSON.parse(element.ProductImage);
+              element.ProductImage = img[0].ServerUrl + img[0].FilePath + '.thumb.' + img[0].FileExt;
+              This.state.zqhd.skillData.push(element)
+            });
           })
+        }
       })
-      //This.state.zqhd.douRecommend = arr
-      // This.state.zqhd.douRecommendNav.map(function (v1) { 
-      //   arr.map(function (v2) { 
-         
-      //   })
-      // })
-      
-      // console.log(This.state.zqhd.douRecommend);
-
+    })
+    // 资讯
+    LoadAdvertList('IMAGE', 'HOME_ARTICLE_1', 1, 2, CheckTime).then(res => {
+      This.state.zqhd.information1 = HandleImageData(res);
+      This.state.zqhd.loadingFlag++;
+    })
+    LoadAdvertList('IMAGE', 'HOME_ARTICLE_2', 1, 3, CheckTime).then(res => {
+      This.state.zqhd.information2 = HandleImageData(res);
+      This.state.zqhd.loadingFlag++;
+    })
+    LoadAdvertList('IMAGE', 'HOME_VIDEO', 1, 5, CheckTime).then(res => {
+      res.data.Data.forEach(v => {
+        v.ImageUrl = JSON.parse(v.ImageUrl)[0].ServerUrl + JSON.parse(v.ImageUrl)[0].FilePath + '.thumb.' + JSON.parse(v.ImageUrl)[0].FileExt
+      });
+      // This.state.zqhd.homeVideo = HandleImageData(res);
+      This.state.zqhd.homeVideo = res.data.Data;
+      This.state.zqhd.loadingFlag++;
     })
   },
-  getDouRecommend(state,obj){
+  getDouRecommend(state, obj) {
     var This = this;
     var CheckTime = '';
-    // console.log(obj);
     GetReferenceProductList(obj.index, 10, 1, 'specialactivity', obj.code).then(function (res) {
-        for (var i = 0; i < res.data.Data.length; i++) {
-          var element = res.data.Data[i];
-          element.ProductImage =
-            JSON.parse(element.ProductImage)[0].ServerUrl +
-            JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt
-          state.zqhd.douRecommend[obj.prindex][obj.code].push(element);
-        }
-      // console.log(state.zqhd.douRecommend[obj.prindex]);
-        // This.state.zqhd.index++;
-        // Vue.set(This.state.zqhd, This.state.zqhd.douRecommend[obj.code])
-      })
-    
+      for (var i = 0; i < res.data.Data.length; i++) {
+        var element = res.data.Data[i];
+        element.ProductImage =
+          JSON.parse(element.ProductImage)[0].ServerUrl +
+          JSON.parse(element.ProductImage)[0].FilePath + '.thumb.' + JSON.parse(element.ProductImage)[0].FileExt
+        state.zqhd.douRecommend[obj.prindex][obj.code].push(element);
+      }
+    })
+
   }
 }

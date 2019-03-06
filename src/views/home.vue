@@ -4,6 +4,7 @@
         <banner-component :bannerMess = 'HomeData.swiperSlides'></banner-component>
         <advertising-space :adver='HomeData.adversitingone'></advertising-space>
         <hot-sale :HotSaleProduct = 'HomeData.HotSaleProduct' :cateoryeName='HOME'></hot-sale>
+        <special-timelimit :specialTimeLimitArr.sync = 'HomeData.specialTimeLimitArr'></special-timelimit>
         <advertising-space :adver='HomeData.adversitingtwo'></advertising-space>
         <original-compilation :originalCompilation='HomeData.originalCompilation'></original-compilation>
         <special-area :specialAreaContent='HomeData.specialAreaContent'></special-area>
@@ -31,6 +32,7 @@ import productComponent from "@/components/product";
 import advercomponent from "@/components/advercomponent.vue";
 import articalComponent from "@/components/articalComponent.vue";
 import originalCompilation from "@/components/originalCompilation.vue";
+import specialTimelimit from "../components/specialTimeLimit.vue";
  
 import axios from "axios";
 export default {
@@ -47,6 +49,7 @@ export default {
     articalComponent,
     advercomponent,
     originalCompilation,
+    specialTimelimit,
     top
   },
   data() {

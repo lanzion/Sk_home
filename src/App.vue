@@ -12,14 +12,14 @@
       </a>
       <div class="fulltoas_close" @click="fulltoas_close">关闭 | {{fulltoastdjs}}S</div>
     </div>
-    
+
     <div v-if='topImgReady[0]' style='width:100%;height:100%;position:fixed;top:0;z-index:10000000;'>
       <img src="./assets/images/370310983500145999.gif" alt="" style='width:100%;'>
     </div>
     <div>
       <header-nav v-show='!topImgReady[0]' style='' v-if='HeaderShow1'></header-nav>
       <div class='container'>
-        <router-view class='default'></router-view>
+        <router-view class='default' id="default"></router-view>
         <swiper :options="AppSwiper" ref='ASwiper' id='ASwiper'>
           <swiper-slide v-for='(data,index) in HeadNavData' :key="index">
             <router-view :name='data.Url.toLocaleLowerCase()'></router-view>
@@ -41,21 +41,21 @@
         <img :src="BUOY[0].ImageUrl[0]" alt="">
       </a>
       <a class="flipper" :href='BUOY[0].Url' v-if='BUOY[0]&&BUOY[0].ImageUrl.length>1' @click="StatisticsBUOY(BUOY[0].Title)">
-          <img :src="item" alt="" v-for='(item,index) in BUOY[0].ImageUrl' :key='index'>
+        <img :src="item" alt="" v-for='(item,index) in BUOY[0].ImageUrl' :key='index'>
       </a>
       <div id='top' @click='toTop()' style='display:none;'>
         <img src="./assets/images/top.png" alt="">
       </div>
-      <div id='newcoup' v-if='Discount'>
+      <!-- <div id='newcoup' v-if='Discount'>
         <a href="https://cms.weixinmvp.com/Mass/170921newmember/default.aspx">
           <img src="https://gdtvshop.weixinmvp.com/Wap/Shop/images/Default/footab.png" alt="">
         </a>
         <div class='close' @click='close()'>
         </div>
-      </div>
+      </div> -->
       <footer-nav></footer-nav>
     </div>
-    
+
   </div>
 </template>
 <script>
@@ -89,7 +89,7 @@ export default {
       startIndex: null,
       timer3: null,
       closeFlage: true,
-      fulltoas_flag:false,
+      fulltoas_flag: false,
       isTop: true,
       HeaderShow1: true,
       topImgTimer: null,
@@ -97,7 +97,7 @@ export default {
       slideIndex: 0,
       moreIndex: true,
       sec: 4,
-      fulltoastdjs:3,
+      fulltoastdjs: 3,
       _hmt: [],
       index: 0,
       AppSwiper: {
@@ -184,7 +184,6 @@ export default {
           }
         }
       },
-      HeaderShow_router:['/','/home','/ms','/jjjz','/jydq','/myyp','/mzgh','/qcbk','/whjy','/zqhd'],
     };
   },
   methods: {
@@ -285,23 +284,22 @@ export default {
     close() {
       this.$store.state.Discount = false;
     },
-    fulltoas_close(){
+    fulltoas_close() {
       this.fulltoas_flag = false;
     }
   },
   watch: {
     $route(to, from) {
       var header_flag = false;
-      this.HeaderShow_router.forEach(v => {
-        if(to.path == v){
-          header_flag = true;
-        }
-      });
+      if(this.$store.state.index<100){
+        header_flag = true;
+        if(this.$store.state.index==100) document.getElementById("ASwiper").style.height = "0px";
+      };
       if (header_flag) {
         this.$store.state.HeaderShow = true;
-      }else{
+      } else {
         this.$store.state.HeaderShow = false;
-        document.getElementById('ASwiper').style.height = "0px";
+        document.getElementById("ASwiper").style.height = "0px";
       }
       clearInterval(this.timer3);
       if (this.$store.state.flag == "false") {
@@ -347,7 +345,7 @@ export default {
     if (!this.$store.state.TopImage.length) {
       this.$store.dispatch("getTopImage");
     }
-    if(!this.$store.state.FullToastImage.length){
+    if (!this.$store.state.FullToastImage.length) {
       this.$store.dispatch("getFullToast");
     }
     this.$store.dispatch("getNotice");
@@ -364,7 +362,10 @@ export default {
     if (this.$route.name != "home") {
       this.HeaderShow1 = false;
     }
-    localStorage.setItem('fulltoas_flag',new Date().getTime())
+    if(this.$store.state.index<100){
+        this.HeaderShow1 = true;
+      }
+    localStorage.setItem("fulltoas_flag", new Date().getTime());
   },
 
   computed: {
@@ -382,8 +383,8 @@ export default {
     TopImage() {
       return this.$store.state.TopImage;
     },
-    FullToastImage(){ 
-      if(this.$store.state.FullToastImage.length) this.fulltoas_flag = true;
+    FullToastImage() {
+      if (this.$store.state.FullToastImage.length) this.fulltoas_flag = true;
       return this.$store.state.FullToastImage;
     },
     ToastData() {
@@ -433,16 +434,16 @@ export default {
         clearInterval(This.topImgTimer);
       }
     }, 1000);
-    if(This.FullToastImage){
-      This.FullToastImageTimer = setInterval(function () {  
-        This.fulltoastdjs -- ;
-        if(This.fulltoastdjs<0){
+    if (This.FullToastImage) {
+      This.FullToastImageTimer = setInterval(function() {
+        This.fulltoastdjs--;
+        if (This.fulltoastdjs < 0) {
           This.fulltoas_flag = false;
-          clearInterval(This.FullToastImageTimer)
+          clearInterval(This.FullToastImageTimer);
         }
-      },1000);
+      }, 1000);
     }
-    
+
     var a = 1;
     window.addEventListener("scroll", this.menu);
     var slideTimer = setInterval(function() {
@@ -494,7 +495,7 @@ html {
   bottom: 0;
   right: 0;
 }
-.fulltoastimage{
+.fulltoastimage {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -502,31 +503,31 @@ html {
   left: 0;
   z-index: 99999999;
   // background: #fffaf1;
-  .fulltoasa{
+  .fulltoasa {
     display: block;
     height: 100%;
     width: 100%;
   }
-  .fulltoas_close{
+  .fulltoas_close {
     background: #000;
-    opacity: .6;
-    color:#fff;
-    font-size: 24/@rem;
+    opacity: 0.6;
+    color: #fff;
+    font-size: 24 / @rem;
     position: absolute;
     bottom: 15%;
     z-index: 1;
-    padding: 10/@rem 15/@rem;
-    right: 30/@rem;
-    border-radius: 20/@rem;
+    padding: 10 / @rem 15 / @rem;
+    right: 30 / @rem;
+    border-radius: 20 / @rem;
   }
-  img{
+  img {
     width: 100%;
   }
-  img:nth-of-type(1){
+  img:nth-of-type(1) {
     position: absolute;
     top: 0;
   }
-   img:nth-of-type(2){
+  img:nth-of-type(2) {
     position: absolute;
     bottom: 0;
   }
@@ -631,14 +632,17 @@ body {
 #ASwiper {
   // margin-top: 172/@rem;
   position: relative;
-  top: 172 / @rem;
+  top: 170 / @rem;
+  // background: #ab3228;
 }
 a {
   text-decoration: none;
   color: #565656;
 }
-body,html{
+body,
+html {
   height: 100%;
+  
 }
 .app {
   margin-bottom: 100px;
@@ -678,9 +682,9 @@ body,html{
     left: 0;
     top: 0;
     // backface-visibility: hidden;
-    -webkit-backface-visibility:hidden;
+    -webkit-backface-visibility: hidden;
     // -moz-backface-visibility:hidden;
-    -ms-backface-visibility:hidden;
+    -ms-backface-visibility: hidden;
   }
   img:nth-child(1) {
     transform: rotateY(0deg);
@@ -724,10 +728,10 @@ body,html{
 
 .container {
   // overflow: hidden;
-  position: absolute;
+  // position: absolute;
   width: 100%;
   z-index: 0;
-  height: 100%;
+  // height: 100%;
 }
 
 .left-enter {
@@ -782,20 +786,20 @@ body,html{
   }
 }
 #app {
-  height: 100%;
+  // height: 100%;
   .category {
     font-size: 28 / @rem;
     width: 100%;
     overflow: hidden;
     .cate3 {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 33.333%;
       height: 180 / @rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120 / @rem;
         width: 100%;
@@ -817,13 +821,13 @@ body,html{
     }
     .cate4 {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180 / @rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120 / @rem;
         width: 100%;
@@ -845,13 +849,13 @@ body,html{
     }
     .cate5 {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180 / @rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120 / @rem;
         width: 100%;
@@ -873,13 +877,13 @@ body,html{
     }
     .cate8 {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180 / @rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120 / @rem;
         width: 100%;
@@ -901,13 +905,13 @@ body,html{
     }
     .cate10 {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180 / @rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120 / @rem;
         width: 100%;
@@ -930,13 +934,13 @@ body,html{
     .cate9 {
       &:nth-of-type(1) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 20%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -958,13 +962,13 @@ body,html{
       }
       &:nth-of-type(2) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 20%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -986,13 +990,13 @@ body,html{
       }
       &:nth-of-type(3) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 20%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -1014,13 +1018,13 @@ body,html{
       }
       &:nth-of-type(4) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 20%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -1042,13 +1046,13 @@ body,html{
       }
       &:nth-of-type(5) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 20%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -1070,13 +1074,13 @@ body,html{
       }
       &:nth-of-type(6) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 25%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -1098,13 +1102,13 @@ body,html{
       }
       &:nth-of-type(7) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 25%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -1126,13 +1130,13 @@ body,html{
       }
       &:nth-of-type(8) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 25%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;
@@ -1154,13 +1158,13 @@ body,html{
       }
       &:nth-of-type(9) {
         text-align: center;
-        background: white;
+        // background: white;
         display: block;
         width: 25%;
         height: 180 / @rem;
         float: left;
         text-decoration: none;
-        color: #929292;
+        // color: #929292;
         .categoryImg {
           height: 120 / @rem;
           width: 100%;

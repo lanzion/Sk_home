@@ -12,18 +12,17 @@
         </swiper-slide>
       </swiper>
       <div class='HomeTop'>
-        <!-- <a href='https://gdtvshop.weixinmvp.com/Wap/Shop/Search.aspx'> <img src="../assets/images/logo.png" alt="" @click="StatisticsSearch('search')">
-          <div v-if='searchtext[0]'>{{searchtext[0].Title}}
+        <!-- <router-link :to="{path:'categoryfixed'}" class="l_fixed"><img src="../assets/images/class_1.png" alt="" @click="StatisticsSearch('categoryfixed')"></router-link>
+        <router-link :to="{path:'searchclass'}" class="l_sear"><img src="../assets/images/sear1.png" alt="" @click="StatisticsSearch('search')">
+          <div v-if='searchList[0]'>{{searchText}}
           </div>
-        </a> -->
+        </router-link> -->
         <router-link :to="{path:'searchclass'}"> <img src="../assets/images/logo.png" alt="" @click="StatisticsSearch('search')">
           <div v-if='searchList[0]'>{{searchText}}
           </div>
         </router-link>
-        <a v-if='LodUnReadNotice' href='https://gdtvshop.weixinmvp.com/wap/member/MessageIndex.aspx' @click="StatisticsMess('Mess')"> <img src="../assets/images/hmess.png" alt="">
-
-        </a>
-        <a v-else href='https://gdtvshop.weixinmvp.com/wap/member/MessageIndex.aspx' @click="StatisticsMess('Mess')"> <img src="../assets/images/message.png" alt=""> </a>
+        <a v-if='LodUnReadNotice' href='https://gdtvshop.weixinmvp.com/wap/member/MessageIndex.aspx' class="l_mass" @click="StatisticsMess('Mess')"> <img src="../assets/images/hmess.png" alt=""></a>
+        <a v-else href='https://gdtvshop.weixinmvp.com/wap/member/MessageIndex.aspx' class="l_mass" @click="StatisticsMess('Mess')"> <img src="../assets/images/message.png" alt=""> </a>
       </div>
     </div>
   </div>
@@ -49,20 +48,25 @@ export default {
     getSearchText() {
       LoadAdvertList("IMAGE", "SEARCH_MESS", 1, 100, "").then(res => {
         this.searchList = res.data.Data;
-        this.searchText = this.searchList[0].Title;
-        if(this.searchList.length>1){
-          setInterval(this.showMarquee, 2000)
+        if (this.searchList.length) {
+          this.searchText = this.searchList[0].Title;
+        } else {
+          this.searchText = "请输入搜索内容";
+        }
+
+        if (this.searchList.length > 1) {
+          setInterval(this.showMarquee, 3000);
         }
       });
     },
     showMarquee: function() {
       this.animate = true;
-      if(this.searchIndex>this.searchList.length-1) this.searchIndex = 0;
+      if (this.searchIndex > this.searchList.length - 1) this.searchIndex = 0;
       setTimeout(() => {
         this.searchText = this.searchList[this.searchIndex].Title;
         this.searchIndex++;
         this.animate = false;
-      }, 1000);
+      }, 500);
     }
   },
   data() {
@@ -117,14 +121,13 @@ export default {
         },
         transitionEnd() {}
       },
-      searchList: '',
+      searchList: "",
       searchText: "",
       animate: false,
-      searchIndex:0,
+      searchIndex: 0
     };
   },
   created() {
-    this.$store.dispatch("getSearch");
     var This = this;
     var TIMER2 = setInterval(function() {
       if (This.Headerswiper && This.HeadNavData.length) {
@@ -249,7 +252,7 @@ export default {
   mounted() {
     this.Headerswiper.APP = this;
   }
-};
+}; 
 </script>
 <style lang='less'>
 @rem: 46.875rem;
@@ -257,6 +260,7 @@ export default {
   position: fixed;
   z-index: 1000;
   width: 16rem;
+  // background: #87180f;
 }
 #topImg {
   width: 16rem;
@@ -264,11 +268,13 @@ export default {
 @rem: 46.875rem;
 .Hcontainer {
   color: #6e6e6e;
+  // color: #c39f9c;
   height: 90 / @rem;
   line-height: 90 / @rem;
   z-index: 10000;
   top: 80 / @rem;
   width: auto;
+  // background: #87180f;
   background: white;
   .swiper-slide {
     width: 170 / @rem;
@@ -295,12 +301,14 @@ export default {
   }
   .router-link-active {
     border-bottom: 2px solid #b4282d;
+    // border-bottom: 2px solid #fff;
     color: #b4282d;
     font-weight: 580;
   }
 }
 .HomeTop {
   background-color: white;
+  // background: #87180f;
   height: 80 / @rem;
   position: absolute;
   top: 0 / @rem;
@@ -345,6 +353,42 @@ export default {
     margin-top: 2 / @rem;
     img {
       width: 80%;
+    }
+  }
+  .l_fixed{
+    width: 60/@rem;
+    display: inline-block;
+    padding-left: 20/@rem;
+    vertical-align: bottom;
+    img{
+      width: 82%;
+    }
+  }
+  .l_sear{
+    width: 530/@rem;
+    display: inline-block;
+    background: #fff;
+    font-size: 30 / @rem;
+    height: 65 / @rem;
+    line-height: 65/@rem;
+    padding-left: 20/@rem;
+    border-radius: 20/@rem;
+    margin: 0 10/@rem;
+    div{
+      width: 450/@rem;
+      display: inline-block;
+    }
+    img{
+      width: 35/@rem;
+      vertical-align: middle;
+    }
+  }
+  .l_mass{
+    width: 60/@rem;
+    display: inline-block;
+    vertical-align: bottom;
+    img{
+      width: 100%;
     }
   }
 }

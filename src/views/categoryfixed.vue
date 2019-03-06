@@ -1,54 +1,61 @@
 <template>
   <div class="categoryfixed">
-    <div class="search">
-      <a href="javascript:;" class="search_int">
-        <img src="../assets/images/sear_img.png" alt="">请输入搜索关键词</a>
-    </div>
-    <div class="categiry_content">
-      <swiper :options="bannerSwiper" class="categiry_content_left">
-        <swiper-slide class="swiper-wrapper" style="height: auto;" v-for='(item,index) in dataList' :key="index">
-          <ul class="menu">
-            <li :class="{active:index==ins}" @click='menuClick(index)'>{{item.Name}}</li>
-          </ul>
-        </swiper-slide>
-      </swiper>
-      <div class="categiry_content_right" v-if="dataList.length">
-        <a href="javascript:;" class="banner">
-          <img src="../assets/images/1.png" alt="">
-        </a>
-        <div class="categiry_list" v-for="(item,index) in dataList[ins].son" :key="index">
-          <div class="categiry_list_title">{{item.Name}}</div>
-          <div class="categiry_list_content" v-if='(item,index)' :key="index">
-            <a :href="'https://gdtvshop.weixinmvp.com'+subItem.Url" class="categiry_list_content_box" v-for="(subItem,index1) in item.son" :key="index1">
-              <div class="categiry_content_img">
-                <img :src="JSON.parse(subItem.ImgUrl)[0].ServerUrl+JSON.parse(subItem.ImgUrl)[0].FilePath+'.thumb.'+JSON.parse(subItem.ImgUrl)[0].FileExt" alt="">
-              </div>
-              <div class="categiry_content_nema">{{subItem.Name}}</div>
-            </a>
+    <div style="height: 100%;" v-if="!lodeing">
+      <div class="search">
+        <router-link :to="{path:'/searchclass'}" class="search_int" @click="Statistics('categoryfixed|search')">
+          <img src="../assets/images/sear_img.png" alt="">请输入搜索关键词</router-link>
+      </div>
+      <div class="categiry_content">
+        <div class="categiry_content_left" v-if="dataList.length">
+          <swiper :options="treeSwiper">
+            <swiper-slide class="swiper-wrapper" style="height: auto;" v-for='(item,index) in dataList' :key="index">
+              <ul class="menu">
+                <li :class="{active:index==ins}" @click='menuClick(index)'>{{item.NAME}}</li>
+              </ul>
+            </swiper-slide>
+          </swiper>
+        </div>
+        <div class="categiry_content_right" v-if="dataList.length">
+          <a :href="dataList[ins].URL" class="banner" v-if="dataList[ins].IMG_URL&&dataList[ins].IMG_URL!='null'" @click="Statistics('categoryfixed|advert|'+dataList[ins].NAME)">
+            <img :src="JSON.parse(dataList[ins].IMG_URL)[0].ServerUrl+JSON.parse(dataList[ins].IMG_URL)[0].FilePath+'.thumb.'+JSON.parse(dataList[ins].IMG_URL)[0].FileExt" alt="">
+          </a>
+          <div class="categiry_list" v-for="(item,index) in dataList[ins].son" :key="index">
+            <div class="categiry_list_title">{{item.NAME}}</div>
+            <div class="categiry_list_content">
+              <a :href="subItem.URL" class="categiry_list_content_box" v-for="(subItem,index1) in item.son" :key="index1" @click="Statistics('categoryfixed|'+subItem.NAME)">
+                <div class="categiry_content_img">
+                  <img :src="JSON.parse(subItem.IMG_URL)[0].ServerUrl+JSON.parse(subItem.IMG_URL)[0].FilePath+'.thumb.'+JSON.parse(subItem.IMG_URL)[0].FileExt" alt="">
+                </div>
+                <div class="categiry_content_nema">{{subItem.NAME}}</div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class='loading' v-if="lodeing">
+      <img src="../assets/images/370310983500145999.gif" alt="">
     </div>
   </div>
 </template>
 
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
-import { dataPost } from "../lib/ajaxFn.js";
-import { dataJson } from "../lib/dataJson.js";
+import { LoadGetTypeTree } from "../server/getData.js";
 export default {
-  name: "BannerSwiper",
+  // name: "BannerSwiper",
+  components: {
+    swiper,
+    swiperSlide
+  },
   data() {
     return {
-      bannerSwiper: {
+      treeSwiper: {
         direction: "vertical",
         slidesPerView: "auto",
-        freeMode: true,
+        // freeMode: true,
         observer: true, //修改swiper自己或子元素时，自动初始化swiper
         observeParents: true, //修改swiper的父元素时，自动初始化swiper
-        scrollbar: {
-          el: ".swiper-scrollbar"
-        },
         mousewheel: true,
         on: {
           init: function() {}
@@ -56,39 +63,56 @@ export default {
       },
       dataList: [],
       ins: 0,
-      initId: 68
+      initId: 68,
+      lodeing: true
     };
   },
+  computed: {
+    treeSwiperShow() {
+      return this.$store.state.HeaderShow;
+    }
+  },
+  watch: {},
   methods: {
     menuClick(index) {
       this.ins = index;
     },
-    subDataList() {
-      // return this.dataList[this.ins].son;
-    }
-  },
-  mounted: function() {
-    var jsonp = [];
-    var IntData = function(root, data, pid) {
-      for (var i = 0, j; (j = data[i++]); ) {
-        if (root.Id == j.Parent) {
-          if (root.Id == pid) {
-            jsonp.push(j);
-          } else {
-            if (!root.son) {
-              root.son = [];
-              root.son.push(j);
-            } else {
-              root.son.push(j);
+    getTreeData() {
+      LoadGetTypeTree({
+        TypeId: 68
+      }).then(res => {
+        var jsonp = [];
+        var IntData = function(root, data, pid) {
+          for (var i = 0, j; (j = data[i++]); ) {
+            if (root.RECID == j.PARENT) {
+              if (root.RECID == pid) {
+                jsonp.push(j);
+              } else {
+                if (!root.son) {
+                  root.son = [];
+                  root.son.push(j);
+                } else {
+                  root.son.push(j);
+                }
+              }
+              IntData(j, data);
             }
           }
-          IntData(j, data);
-        }
-      }
-    };
-    IntData({ Id: this.initId }, dataJson.Result.List, this.initId);
-    this.dataList = jsonp;
-    console.log(this.dataList);
+        };
+        IntData({ RECID: 68 }, res.data.Data, 68);
+        // console.log(jsonp);
+        this.dataList = jsonp;
+        this.lodeing = false;
+      });
+    },
+    Statistics(item) {
+      // console.log(item);
+      this.$statistics = this.$statistics.of("categoryfixed|");
+      this.$statistics.click(item);
+    }
+  },
+  created() {
+    this.getTreeData();
   }
 };
 </script>
@@ -100,6 +124,7 @@ img {
 }
 
 .categoryfixed {
+  height: 100%;
   .search {
     padding: 18 / @rem 20 / @rem;
     height: 56 / @rem;
@@ -127,16 +152,22 @@ img {
   }
   .categiry_content {
     background: #f9f9f9;
-    // height: 86vh;
+    height: 100%;
     position: relative;
-    padding-top: 160 / @rem;
-    padding-bottom: 46px;
+    padding-top: 110 / @rem;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    position: fixed;
+    width: 100%;
     .categiry_content_left {
       width: 23%;
       height: 100%;
       float: left;
       text-align: center;
-      margin-bottom: 42px;
+      // margin-bottom: 42px;
+      .swiper-container {
+        height: 100%;
+      }
       ul {
         width: 100%;
         background: #fff;
@@ -144,15 +175,18 @@ img {
           height: 110 / @rem;
           line-height: 110 / @rem;
           font-size: 26 / @rem;
-          color: #666;
+          color: #a7a7a7;
           border-bottom: 1px solid #ccc;
           background: #fff;
           // margin: 0 10/@rem;
+          width: 88%;
+          margin: 0 auto;
         }
         li.active {
-          color: #fb364d;
-          border-bottom: 1px solid #fb364d;
+          color: #b4282d;
+          border-bottom: 1px solid #b4282d;
           background: #f9f9f9;
+          width: 100%;
         }
       }
     }
@@ -179,7 +213,7 @@ img {
           display: inline-block;
           width: 13 / @rem;
           height: 13 / @rem;
-          background: #ff3a56;
+          background: #b4282d;
           border-radius: 50%;
           float: left;
           margin-right: 20 / @rem;

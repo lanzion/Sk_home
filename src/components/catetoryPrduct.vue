@@ -4,7 +4,7 @@
                 <img v-lazy="item.ImageUrl" alt="">
                 <div class='recommendtitle'>{{item.Title}}</div>
                 <div class='recommendmeno'>{{item.Describe}}</div>
-                <div class='recommendprice'>￥{{item.Param1}}</div>
+                <div class='recommendprice'>￥{{item.ActivityPrice?item.ActivityPrice:item.Param1}}</div>
       </a>
   </div>
 </template>
@@ -19,12 +19,12 @@ export default {
 <style lang='less'>
 @rem: 46.875rem;
 .title {
-  width: 100%;
+  // width: 100%;
   height: 100/@rem;
   line-height: 100/@rem;
   text-align: center;
   font-size: 40/@rem;
-  font-weight: 580;
+  font-weight: 900;
   margin-bottom: 10/@rem;
   margin-top: 10/@rem;
   background: white;
@@ -45,7 +45,7 @@ export default {
     img {
       width: 345/@rem;
       height: 416/@rem;
-      box-shadow: 2px 2px 2px #ccc;
+      // box-shadow: 2px 2px 2px #ccc;
       border-radius: 6px;
     }
     .recommendtitle {

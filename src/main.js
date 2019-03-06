@@ -34,10 +34,10 @@ Vue.use(VueLazyload, {
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 Vue.use(VueAwesomeSwiper);
-import VideoPlayer from 'vue-video-player'
-require('video.js/dist/video-js.css')
-require('vue-video-player/src/custom-theme.css')
-Vue.use(VideoPlayer)
+// import VideoPlayer from 'vue-video-player'
+// require('video.js/dist/video-js.css')
+// require('vue-video-player/src/custom-theme.css')
+// Vue.use(VideoPlayer)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

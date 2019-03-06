@@ -39,8 +39,10 @@ export default {
               if (Height < document.documentElement.clientHeight) {
                 Height = document.documentElement.clientHeight
               }
-              document.getElementById('app').style.height = Height + 'px'
-              document.getElementById('app').style.overflow = 'hidden'
+              // document.getElementById('app').style.height = Height + 'px'
+              document.getElementById('ASwiper').style.height = '0px'
+              // document.getElementById('app').style.overflow = 'hidden'
+              document.getElementById('ASwiper').style.overflow = 'hidden'
             }
 
             if (this.App) {
@@ -109,8 +111,10 @@ export default {
                   if (Height < document.documentElement.clientHeight) {
                     Height = document.documentElement.clientHeight
                   }
-                  document.getElementById('app').style.height = Height + 'px'
-                  document.getElementById('app').style.overflow = 'hidden'
+                  // document.getElementById('app').style.height = Height + 'px'
+                  document.getElementById('ASwiper').style.height = '0px'
+                  // document.getElementById('app').style.overflow = 'hidden'
+                  document.getElementById('ASwiper').style.overflow = 'hidden'
                 }
                 // this.slides.eq(activeIndex).css('transform','translate3d(0,0,0)')
                 // document.documentElement.scrollTop = document.body.scrollTop = this.App.$store.state[catetoryname][ this.App.bannerLlis[activeIndex]+'scrollTop'];
@@ -118,7 +122,8 @@ export default {
             }
           },
           transitionEnd() {
-            document.getElementById('app').style.overflow = 'visible'
+            // document.getElementById('app').style.overflow = 'visible'
+            // document.getElementById('ASwiper').style.overflow = 'visible'
             var activeIndex = this.activeIndex
             var This = this
             if (This.App) {

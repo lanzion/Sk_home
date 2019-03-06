@@ -9,7 +9,7 @@ import mzgh from "@/views/mzgh";
 import qcbk from "@/views/qcbk";
 import whjy from "@/views/whjy";
 
-import zqhd from "@/views/zqhd";
+// import zqhd from "@/views/zqhd";
 
 import catetory from "@/views/catetory.vue";
 
@@ -20,11 +20,10 @@ import kind from "@/views/kind.vue";
 import getMoreProduct from "@/views/morenewproduct.vue";
 
 import getMoreHotProduct from "@/views/morehotsale.vue";
-import doubleEl from "@/views/doubleEleven/doubleEl.vue";
+import activity from "@/views/activity/activity.vue";
 
-// import categoryfixed from "@/views/categoryfixed.vue";
+import categoryfixed from "@/views/categoryfixed.vue";
 
-// import SearchClass from '@/views/search/SearchClass.vue';
 import SearchClass from '../views/search/SearchClass.vue'
 
 Vue.use(Router);
@@ -43,7 +42,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 0,
@@ -65,7 +64,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 1,
@@ -87,7 +86,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 2,
@@ -109,7 +108,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 3,
@@ -131,7 +130,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 4,
@@ -153,7 +152,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 5,
@@ -175,7 +174,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 6,
@@ -197,7 +196,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 7,
@@ -241,11 +240,14 @@ const router = new Router({
         index: 101,
       }
     },
-    // {
-    //   path: "/categoryfixed",
-    //   name: "categoryfixed",
-    //   component: categoryfixed,
-    // },
+    {
+      path: "/categoryfixed",
+      name: "categoryfixed",
+      component: categoryfixed,
+      meta: { 
+        index:102,
+       }
+    },
     {
       path: "/zqhd",
       name: "ZQHD",
@@ -258,7 +260,7 @@ const router = new Router({
         mzgh: mzgh,
         qcbk: qcbk,
         whjy: whjy,
-        zqhd: doubleEl
+        zqhd: activity
       },
       meta: {
         index: 8,
@@ -272,6 +274,9 @@ const router = new Router({
       path: "/searchclass",
       name:'SearchClass',
       component: SearchClass,
+      meta:{
+        index:102,
+      }
     },
   ]
 });

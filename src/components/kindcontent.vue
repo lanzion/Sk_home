@@ -149,9 +149,10 @@ export default {
     }, 30);
   },
   created(){
-    var app = document.getElementById('app');
+    // var app = document.getElementById('app');
+    var app = document.getElementById('ASwiper');
     app.style.overflow = 'hidden';
-    app.style.height = 'auto'
+    // app.style.height = 'auto'
   },
   methods: {
     menu() {

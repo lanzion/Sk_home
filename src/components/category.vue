@@ -51,6 +51,8 @@ export default {
   overflow: hidden;
   a{
     margin-left:0;
+    background: #fff;
+     color: #929292;
     img{
         -webkit-box-shadow: 0px 0px 0px 0px #eee; 
         box-shadow:  0px 0px 0px 0px #eee;
@@ -59,13 +61,13 @@ export default {
   }
   .cate3 {
     text-align: center;
-    background: white;
+    // background: white;
     display: block;
     width: 33.333%;
     height: 180/@rem;
     float: left;
     text-decoration: none;
-    color: #929292;
+    // color: #929292;
     .categoryImg {
       height: 120/@rem;
       width: 100%;
@@ -89,13 +91,13 @@ export default {
   }
   .cate4 {
     text-align: center;
-    background: white;
+    // background: white;
     display: block;
     width: 25%;
     height: 180/@rem;
     float: left;
     text-decoration: none;
-    color: #929292;
+    // color: #929292;
     .categoryImg {
       height: 120/@rem;
       width: 100%;
@@ -118,13 +120,13 @@ export default {
   }
   .cate5 {
     text-align: center;
-    background: white;
+    // background: white;
     display: block;
     width: 20%;
     height: 180/@rem;
     float: left;
     text-decoration: none;
-    color: #929292;
+    // color: #929292;
     .categoryImg {
       height: 120/@rem;
       width: 100%;
@@ -147,13 +149,13 @@ export default {
   }
     .cate6 {
     text-align: center;
-    background: white;
+    // background: white;
     display: block;
     width: 33.333%;
     height: 180/@rem;
     float: left;
     text-decoration: none;
-    color: #929292;
+    // color: #929292;
     .categoryImg {
       height: 120/@rem;
       width: 100%;
@@ -178,13 +180,13 @@ export default {
   .cate7{
     &:nth-of-type(7) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -207,13 +209,13 @@ export default {
     }
     &:nth-of-type(6) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -236,13 +238,13 @@ export default {
     }
     &:nth-of-type(5) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -265,13 +267,13 @@ export default {
     }
     &:nth-of-type(4) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
      width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -294,13 +296,13 @@ export default {
     }
     &:nth-of-type(3) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 33.3%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -323,13 +325,13 @@ export default {
     }
     &:nth-of-type(2) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 33.3%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -352,13 +354,13 @@ export default {
     }
     &:nth-of-type(1) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
        width: 33.3%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -383,13 +385,13 @@ export default {
 
   .cate8 {
     text-align: center;
-    background: white;
+    // background: white;
     display: block;
     width: 25%;
     height: 180/@rem;
     float: left;
     text-decoration: none;
-    color: #929292;
+    // color: #929292;
     .categoryImg {
       height: 120/@rem;
       width: 100%;
@@ -412,13 +414,13 @@ export default {
   }
   .cate10 {
     text-align: center;
-    background: white;
+    // background: white;
     display: block;
     width: 20%;
     height: 180/@rem;
     float: left;
     text-decoration: none;
-    color: #929292;
+    // color: #929292;
     .categoryImg {
       height: 120/@rem;
       width: 100%;
@@ -442,13 +444,13 @@ export default {
   .cate9 {
     &:nth-of-type(1) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -471,13 +473,13 @@ export default {
     }
     &:nth-of-type(2) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -500,13 +502,13 @@ export default {
     }
     &:nth-of-type(3) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -529,13 +531,13 @@ export default {
     }
     &:nth-of-type(4) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -558,13 +560,13 @@ export default {
     }
     &:nth-of-type(5) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 20%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -587,13 +589,13 @@ export default {
     }
     &:nth-of-type(6) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -616,13 +618,13 @@ export default {
     }
     &:nth-of-type(7) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -645,13 +647,13 @@ export default {
     }
     &:nth-of-type(8) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
@@ -674,13 +676,13 @@ export default {
     }
     &:nth-of-type(9) {
       text-align: center;
-      background: white;
+      // background: white;
       display: block;
       width: 25%;
       height: 180/@rem;
       float: left;
       text-decoration: none;
-      color: #929292;
+      // color: #929292;
       .categoryImg {
         height: 120/@rem;
         width: 100%;
